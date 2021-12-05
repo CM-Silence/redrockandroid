@@ -84,9 +84,10 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             mCbRememberPassword.setChecked(true);
         }
 
-        /*if(isAutoLogin){
+        if(isAutoLogin){
             SecondActivity.startActivity(this);
-        }*/
+            mCbAutoLogin.setChecked(true);
+        }
 
         //获取已注册过的账号密码
         int listSize = sharedPreferences.getInt("listSize",0);
@@ -122,7 +123,6 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
         //在账号密码列表中寻找与用户输入匹配的账号密码
         if(usernameList.size() > 0) {
-            Toast.makeText(this, "登录中...", Toast.LENGTH_LONG).show();
             for (int i = 0; i < usernameList.size(); i++) {
                 if (username.equals(usernameList.get(i)) && password.equals(passwordList.get(i))) {
                     if (mCbRememberPassword.isChecked()) {
@@ -131,11 +131,16 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                     } else {
                         editor.clear();
                     }
+                    if(mCbAutoLogin.isChecked()){
+                        editor.putBoolean("autoLogin", true);
+                    } else {
+                        editor.clear();
+                    }
                     editor.putString("username", username);
                     editor.apply();
                     Toast.makeText(this, "登录成功!", Toast.LENGTH_SHORT).show();
-                    //SecondActivity.startActivity(this);
-                    return; //找到则退出方法进入其他界面(虽然还没做。。。)
+                    SecondActivity.startActivity(this);
+                    return; //找到则退出方法进入其他界面
                 }
             }
         }

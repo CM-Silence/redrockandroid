@@ -11,4 +11,5 @@
     <string name="返回">返回</string>
     <string name="记住密码">记住密码</string>
     <string name="自动登录">自动登录</string>
+    <string name="退出登录">退出登录</string>
 </resources>
