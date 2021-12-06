@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
@@ -32,6 +33,8 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     private CheckBox mCbRememberPassword;
     private CheckBox mCbAutoLogin;
     private final RegisterDialog registerFragment = new RegisterDialog();
+
+    //用于储存用户账号密码的东西
     protected static SharedPreferences sharedPreferences;
     protected static SharedPreferences.Editor editor;
     protected static List<String> usernameList;
@@ -71,7 +74,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         passwordList = new ArrayList<>();
 
         //获取sharedPreferences以及edit
-        sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+        sharedPreferences = getSharedPreferences("data",MODE_PRIVATE);
         editor = sharedPreferences.edit();
 
         //记住密码选项是否被勾上
@@ -79,15 +82,10 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         boolean isAutoLogin = sharedPreferences.getBoolean("autoLogin",false);
 
         if(isRemember){
-            mEtUsername.setText(sharedPreferences.getString("username",""));
             mEtPassword.setText(sharedPreferences.getString("password",""));
             mCbRememberPassword.setChecked(true);
         }
-
-        if(isAutoLogin){
-            SecondActivity.startActivity(this);
-            mCbAutoLogin.setChecked(true);
-        }
+        mEtUsername.setText(sharedPreferences.getString("username",""));
 
         //获取已注册过的账号密码
         int listSize = sharedPreferences.getInt("listSize",0);
@@ -96,6 +94,11 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 usernameList.add(sharedPreferences.getString("existUsername" + i, null));
                 passwordList.add(sharedPreferences.getString("existPassword" + i, null));
             }
+        }
+
+        if(isAutoLogin){
+            SecondActivity.startActivity(this);
+            mCbAutoLogin.setChecked(true);
         }
     }
 
@@ -125,19 +128,17 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         if(usernameList.size() > 0) {
             for (int i = 0; i < usernameList.size(); i++) {
                 if (username.equals(usernameList.get(i)) && password.equals(passwordList.get(i))) {
+
                     if (mCbRememberPassword.isChecked()) {
                         editor.putBoolean("rememberPassport", true);
                         editor.putString("password", password);
                     } else {
-                        editor.clear();
+                        editor.putBoolean("rememberPassport", false);
+                        editor.putString("password", "");
                     }
-                    if(mCbAutoLogin.isChecked()){
-                        editor.putBoolean("autoLogin", true);
-                    } else {
-                        editor.clear();
-                    }
+                    editor.putBoolean("autoLogin", mCbAutoLogin.isChecked());
                     editor.putString("username", username);
-                    editor.apply();
+                    editor.commit();
                     Toast.makeText(this, "登录成功!", Toast.LENGTH_SHORT).show();
                     SecondActivity.startActivity(this);
                     return; //找到则退出方法进入其他界面
@@ -146,6 +147,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         }
         //找不到则告知用户以下信息
         Toast.makeText(this, "我好不容易登录一次,你却让我输得这么彻底! 焯!(账号或密码错误)", Toast.LENGTH_SHORT).show();
+        Log.d("LoginActivity","Can't login.");
     }
 
     //获取注册信息,保存注册的账号密码
@@ -160,6 +162,6 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             editor.putString("existUsername"+i,usernameList.get(i));
             editor.putString("existPassword"+i,passwordList.get(i));
         }
-        editor.apply();
+        editor.commit();
     }
 }
