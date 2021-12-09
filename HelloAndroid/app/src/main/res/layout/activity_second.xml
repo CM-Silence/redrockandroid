@@ -20,4 +20,21 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.976" />
 
+    <Button
+        android:id="@+id/btn_sec_show"
+        android:layout_width="80dp"
+        android:layout_height="200dp"
+        android:background="@drawable/selector_btn"
+        android:text="软件工程导论\n\n\n\n2308"
+        android:textAlignment="center"
+        android:textColor="#673AB7"
+        android:textSize="20sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.499" />
+
+
 </androidx.constraintlayout.widget.ConstraintLayout>

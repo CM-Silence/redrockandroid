@@ -19,34 +19,32 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.33" />
 
-    <com.google.android.material.button.MaterialButton
+    <Button
         android:id="@+id/btn_main_login"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="104dp"
         android:text="@string/登录"
-        app:cornerRadius="10dp"
+        android:background="@drawable/selector_btn"
+        android:textColor="@color/white"
         app:layout_constraintEnd_toEndOf="@+id/cb_main_autoLogin"
         app:layout_constraintHorizontal_bias="0.482"
         app:layout_constraintStart_toStartOf="@+id/cb_main_rememberPassword"
         app:layout_constraintTop_toBottomOf="@+id/til_main_password"
-        app:strokeColor="@color/teal_200"
-        app:strokeWidth="3dp"
         tools:visibility="visible" />
 
-    <com.google.android.material.button.MaterialButton
+    <Button
         android:id="@+id/btn_main_register"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
         android:text="@string/注册"
-        app:cornerRadius="10dp"
+        android:background="@drawable/selector_btn"
+        android:textColor="@color/white"
         app:layout_constraintEnd_toEndOf="@+id/btn_main_login"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="@+id/btn_main_login"
         app:layout_constraintTop_toBottomOf="@+id/btn_main_login"
-        app:strokeColor="@color/teal_200"
-        app:strokeWidth="3dp"
         tools:visibility="visible" />
 
     <com.google.android.material.textfield.TextInputLayout

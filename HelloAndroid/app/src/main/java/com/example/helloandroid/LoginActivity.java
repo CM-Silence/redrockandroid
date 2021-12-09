@@ -24,8 +24,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class LoginActivity extends AppCompatActivity implements View.OnClickListener, RegisterDialog.RegisterListener {
-    private MaterialButton mBtnLogin;
-    private MaterialButton mBtnRegister;
+    private Button mBtnLogin;
+    private Button mBtnRegister;
     private TextInputEditText mEtUsername;
     private TextInputEditText mEtPassword;
     private TextInputLayout mTilUsername;
@@ -37,8 +37,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     //用于储存用户账号密码的东西
     protected static SharedPreferences sharedPreferences;
     protected static SharedPreferences.Editor editor;
-    protected static List<String> usernameList;
-    protected static List<String> passwordList;
+    protected static List<UserBean> userList;
 
     //开始该活动的方法
     public static void startActivity(Context context){
@@ -55,51 +54,82 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             actionbar.hide();
         }
         initView();
+        initUserBean();
+        initClick();
     }
 
     //初始化
     private void initView(){
         //获取各个控件
         mBtnLogin = findViewById(R.id.btn_main_login);
-        mBtnLogin.setOnClickListener(this);
         mBtnRegister = findViewById(R.id.btn_main_register);
-        mBtnRegister.setOnClickListener(this);
         mEtUsername = findViewById(R.id.et_main_username);
         mEtPassword = findViewById(R.id.et_main_password);
         mTilUsername = findViewById(R.id.til_main_username);
         mTilPassword = findViewById(R.id.til_main_password);
         mCbRememberPassword = findViewById(R.id.cb_main_rememberPassword);
         mCbAutoLogin = findViewById(R.id.cb_main_autoLogin);
-        usernameList = new ArrayList<>();
-        passwordList = new ArrayList<>();
 
         //获取sharedPreferences以及edit
         sharedPreferences = getSharedPreferences("data",MODE_PRIVATE);
         editor = sharedPreferences.edit();
 
-        //记住密码选项是否被勾上
-        boolean isRemember = sharedPreferences.getBoolean("rememberPassport",false);
-        boolean isAutoLogin = sharedPreferences.getBoolean("autoLogin",false);
+    }
 
-        if(isRemember){
-            mEtPassword.setText(sharedPreferences.getString("password",""));
-            mCbRememberPassword.setChecked(true);
-        }
-        mEtUsername.setText(sharedPreferences.getString("username",""));
+    private void initClick(){
+        mBtnLogin.setOnClickListener(this);
+        mBtnRegister.setOnClickListener(this);
+    }
 
+    private void initUserBean(){
+        userList = new ArrayList<>();
         //获取已注册过的账号密码
         int listSize = sharedPreferences.getInt("listSize",0);
         if(listSize > 0) {
             for (int i = 0; i < listSize; i++) {
-                usernameList.add(sharedPreferences.getString("existUsername" + i, null));
-                passwordList.add(sharedPreferences.getString("existPassword" + i, null));
+                userList.add(UserBean.getBeanFromString(sharedPreferences.getString("user" + i, null)));
+            }
+        }
+        //登录过的账号可以直接显示
+        mEtUsername.setText(sharedPreferences.getString("username",""));
+
+        //保留某个账号记住密码或者自动登录的操作
+        for (int i = 0; i < userList.size(); i++) {
+            if(mEtUsername.getText().toString().equals(userList.get(i).getUsername())) {
+                if (userList.get(i).isAutoLogin()) {
+                    SecondActivity.startActivity(this);
+                    mCbAutoLogin.setChecked(true);
+                }
+                if (userList.get(i).isRememberPassword()) {
+                    mEtPassword.setText(userList.get(i).getPassword());
+                    mCbRememberPassword.setChecked(true);
+                }
             }
         }
 
-        if(isAutoLogin){
-            SecondActivity.startActivity(this);
-            mCbAutoLogin.setChecked(true);
-        }
+        //输入的账号若之前选择了记住密码则直接将密码填进mEtPassword中
+        mEtUsername.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                for (int i = 0; i < userList.size(); i++) {
+                    if(mEtUsername.getText().toString().equals(userList.get(i).getUsername()) && userList.get(i).isRememberPassword()) {
+                        mEtPassword.setText(userList.get(i).getPassword());
+                        mCbAutoLogin.setChecked(userList.get(i).isAutoLogin());
+                        mCbRememberPassword.setChecked(true);
+                    }
+                }
+            }
+        });
     }
 
     //点击检测
@@ -125,20 +155,25 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         String password = mEtPassword.getText().toString();
 
         //在账号密码列表中寻找与用户输入匹配的账号密码
-        if(usernameList.size() > 0) {
-            for (int i = 0; i < usernameList.size(); i++) {
-                if (username.equals(usernameList.get(i)) && password.equals(passwordList.get(i))) {
-
+        if(userList.size() > 0) {
+            for (int i = 0; i < userList.size(); i++) {
+                if (username.equals(userList.get(i).getUsername()) && password.equals(userList.get(i).getPassword())) {
                     if (mCbRememberPassword.isChecked()) {
-                        editor.putBoolean("rememberPassport", true);
                         editor.putString("password", password);
+                        userList.get(i).setRememberPassword(true);
                     } else {
-                        editor.putBoolean("rememberPassport", false);
                         editor.putString("password", "");
+                        userList.get(i).setRememberPassword(false);
                     }
-                    editor.putBoolean("autoLogin", mCbAutoLogin.isChecked());
+                    userList.get(i).setAutoLogin(mCbAutoLogin.isChecked());
+
+                    //记录登陆成功过的账号
                     editor.putString("username", username);
-                    editor.commit();
+
+                    //记录该用户的选择
+                    editor.putString("user" + i,userList.get(i).getBeanString());
+
+                    editor.apply();
                     Toast.makeText(this, "登录成功!", Toast.LENGTH_SHORT).show();
                     SecondActivity.startActivity(this);
                     return; //找到则退出方法进入其他界面
@@ -155,13 +190,11 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     public void getRegisterInput(String username, String password)
     {
         Toast.makeText(this, "注册成功!账号:"+username + "密码:" + password, Toast.LENGTH_LONG).show();
-        usernameList.add(username);
-        passwordList.add(password);
-        editor.putInt("listSize",usernameList.size());
-        for (int i = 0; i < usernameList.size(); i++){
-            editor.putString("existUsername"+i,usernameList.get(i));
-            editor.putString("existPassword"+i,passwordList.get(i));
-        }
-        editor.commit();
+        UserBean user = new UserBean(username,password);
+        //将对象以字符串的形式储存到sharePreferences中(+i是为了储存多个字符串)
+        editor.putString("user" + userList.size(), user.getBeanString());
+        userList.add(user);
+        editor.putInt("listSize",userList.size());
+        editor.apply();
     }
 }

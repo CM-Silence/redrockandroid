@@ -66,9 +66,9 @@ public class RegisterDialog extends DialogFragment {
         String username = mEtRegisterUsername.getText().toString();
         String firstPassport = mEtFirPassword.getText().toString();
         String secondPassport = mEtSecPassword.getText().toString();
-        if(LoginActivity.usernameList.size() > 0) {
-            for (int i = 0; i < LoginActivity.usernameList.size(); i++) {
-                if (username.equals(LoginActivity.usernameList.get(i))) {
+        if(LoginActivity.userList.size() > 0) {
+            for (int i = 0; i < LoginActivity.userList.size(); i++) {
+                if (username.equals(LoginActivity.userList.get(i).getUsername())) {
                     Toast.makeText(getActivity(), "我好不容易注册一次,你却让我输得这么彻底! 焯!(该账号已被注册!)", Toast.LENGTH_LONG).show();
                     return;
                 }
@@ -110,7 +110,7 @@ public class RegisterDialog extends DialogFragment {
                     mTilUsername.setError("用户名长度为8-10");
                 }
                 else{
-                    mTilUsername.setError("");
+                    mTilUsername.setError(null);
                 }
             }
         });
@@ -131,7 +131,7 @@ public class RegisterDialog extends DialogFragment {
                     mTilFirPassword.setError("密码长度为6-12");
                 }
                 else{
-                    mTilFirPassword.setError("");
+                    mTilFirPassword.setError(null);
                 }
             }
         });
