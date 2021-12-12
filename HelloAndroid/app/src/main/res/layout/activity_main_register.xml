@@ -24,7 +24,7 @@
             android:id="@+id/et_main_register_username"
             android:layout_width="200dp"
             android:layout_height="wrap_content"
-            android:hint="@string/输入账号"
+            android:hint="@string/inputUsername"
             android:inputType="number"
             android:lines="1"
             android:maxLines="1" />
@@ -42,7 +42,7 @@
                 android:layout_width="200dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
-                android:hint="@string/输入密码"
+                android:hint="@string/inputPassword"
                 android:inputType="textPassword"
                 android:lines="1"
                 android:maxLines="1" />
@@ -61,7 +61,7 @@
                 android:layout_width="200dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
-                android:hint="@string/确认密码"
+                android:hint="@string/secondPassword"
                 android:inputType="textPassword"
                 android:lines="1"
                 android:maxLines="1" />

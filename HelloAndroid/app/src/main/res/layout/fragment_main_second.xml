@@ -3,15 +3,14 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".SecondActivity">
+    android:layout_height="match_parent">
 
     <Button
         android:id="@+id/btn_sec_logout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:background="@drawable/selector_btn"
-        android:text="@string/退出登录"
+        android:text="@string/logout"
         android:textColor="@color/white"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -20,21 +19,16 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.976" />
 
-    <Button
-        android:id="@+id/btn_sec_show"
-        android:layout_width="80dp"
-        android:layout_height="200dp"
-        android:background="@drawable/selector_btn"
-        android:text="软件工程导论\n\n\n\n2308"
-        android:textAlignment="center"
-        android:textColor="#673AB7"
-        android:textSize="20sp"
+    <androidx.viewpager2.widget.ViewPager2
+        android:id="@+id/vp2_sec_lesson"
+        android:layout_width="match_parent"
+        android:layout_height="400dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.499" />
+        app:layout_constraintVertical_bias="0.0" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

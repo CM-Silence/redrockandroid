@@ -2,6 +2,9 @@ package com.example.helloandroid;
 
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 
 import android.os.Bundle;
 
@@ -16,16 +19,16 @@ public class WelcomeActivity extends AppCompatActivity{
             actionbar.hide();
         }
         new Thread(){
-            public void run(){
+           public void run(){
                 try {
-                    Thread.sleep(3000);
+                    Thread.sleep(2000);
                 } catch (InterruptedException e) {
-                    e.printStackTrace();
+                   e.printStackTrace();
                 }
-                LoginActivity.startActivity(WelcomeActivity.this);
+                MainActivity.startActivity(WelcomeActivity.this);
                 finish();
             }
-        }.start();
+       }.start();
 
     }
 }

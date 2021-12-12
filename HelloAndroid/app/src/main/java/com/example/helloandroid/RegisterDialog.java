@@ -9,7 +9,6 @@ import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.EditText;
 import android.widget.Toast;
 
 import com.google.android.material.textfield.TextInputEditText;
@@ -66,26 +65,29 @@ public class RegisterDialog extends DialogFragment {
         String username = mEtRegisterUsername.getText().toString();
         String firstPassport = mEtFirPassword.getText().toString();
         String secondPassport = mEtSecPassword.getText().toString();
-        if(LoginActivity.userList.size() > 0) {
-            for (int i = 0; i < LoginActivity.userList.size(); i++) {
-                if (username.equals(LoginActivity.userList.get(i).getUsername())) {
+        if(LoginFragment.userList.size() > 0) {
+            for (int i = 0; i < LoginFragment.userList.size(); i++) {
+                if (username.equals(LoginFragment.userList.get(i).getUsername())) {
                     Toast.makeText(getActivity(), "我好不容易注册一次,你却让我输得这么彻底! 焯!(该账号已被注册!)", Toast.LENGTH_LONG).show();
                     return;
                 }
             }
         }
-        if(firstPassport.equals(secondPassport) && username.length() >= 8 && username.length() <= 10 && firstPassport.length() >= 6 && firstPassport.length() <= 12) {
-            RegisterListener listener = (RegisterListener) getActivity();
+        if(firstPassport.equals(secondPassport) && username.length() >= 8 && username.length() <= 10 && firstPassport.length() >= 6 && firstPassport.length() <= 12 && firstPassport.matches(".*[a-zA-Z]+.*")) {
+            RegisterListener listener = (RegisterListener)MainActivity.fragment;
             listener.getRegisterInput(username,firstPassport);
         }
         else if(!firstPassport.equals(secondPassport)){
-            Toast.makeText(getActivity(), "我好不容易注册一次,你却让我输得这么彻底! 焯!(两次输入的密码不同)", Toast.LENGTH_LONG).show();
+            Toast.makeText(getActivity(), "我好不容易注册一次,你却让我输得这么彻底! 焯!(两次输入的密码不同!)", Toast.LENGTH_LONG).show();
         }
         else if(username.length() < 8 || firstPassport.length() < 6 || username.length() > 10 || firstPassport.length() > 12){
             Toast.makeText(getActivity(), "我好不容易注册一次,你却让我输得这么彻底! 焯!(账号或密码长度不够,账号由8-10个数字组成,密码由6-12个字符组成!)", Toast.LENGTH_LONG).show();
         }
+        else if(!firstPassport.matches(".*[a-zA-Z]+.*")){
+            Toast.makeText(getActivity(), "我好不容易注册一次,你却让我输得这么彻底! 焯!(密码必须包含字母!)", Toast.LENGTH_LONG).show();
+        }
         else{
-            Toast.makeText(getActivity(), "我好不容易注册一次,你却让我输得这么彻底! 焯!(未知的错误)", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getActivity(), "我好不容易注册一次,你却让我输得这么彻底! 焯!(未知的错误!)", Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -129,6 +131,9 @@ public class RegisterDialog extends DialogFragment {
             public void afterTextChanged(Editable s) {
                 if(mEtFirPassword.getText().toString().length() < 6 || mEtFirPassword.getText().toString().length() > 12){
                     mTilFirPassword.setError("密码长度为6-12");
+                }
+                else if(!s.toString().matches(".*[a-zA-Z]+.*")){
+                    mTilFirPassword.setError("密码必须包含字母");
                 }
                 else{
                     mTilFirPassword.setError(null);
