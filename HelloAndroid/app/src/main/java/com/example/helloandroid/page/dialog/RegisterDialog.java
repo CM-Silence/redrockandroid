@@ -1,4 +1,4 @@
-package com.example.helloandroid;
+package com.example.helloandroid.page.dialog;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
@@ -11,6 +11,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import com.example.helloandroid.R;
+import com.example.helloandroid.page.activity.MainActivity;
+import com.example.helloandroid.page.fragment.LoginFragment;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 
@@ -74,7 +77,7 @@ public class RegisterDialog extends DialogFragment {
             }
         }
         if(firstPassport.equals(secondPassport) && username.length() >= 8 && username.length() <= 10 && firstPassport.length() >= 6 && firstPassport.length() <= 12 && firstPassport.matches(".*[a-zA-Z]+.*")) {
-            RegisterListener listener = (RegisterListener)MainActivity.fragment;
+            RegisterListener listener = (RegisterListener) MainActivity.fragment;
             listener.getRegisterInput(username,firstPassport);
         }
         else if(!firstPassport.equals(secondPassport)){

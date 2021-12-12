@@ -1,20 +1,15 @@
-package com.example.helloandroid;
+package com.example.helloandroid.page.fragment;
 
 import static android.content.Context.MODE_PRIVATE;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.ActionBar;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
-import android.content.Context;
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
@@ -25,6 +20,9 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.Toast;
 
+import com.example.helloandroid.R;
+import com.example.helloandroid.page.dialog.RegisterDialog;
+import com.example.helloandroid.bean.UserBean;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 
@@ -32,7 +30,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-public class LoginFragment extends Fragment implements View.OnClickListener ,RegisterDialog.RegisterListener{
+public class LoginFragment extends Fragment implements View.OnClickListener , RegisterDialog.RegisterListener {
     private static final String ARG_USER_BEAN = "userBean";
 
     public static LoginFragment newInstance(@Nullable UserBean userBean) {
@@ -57,7 +55,7 @@ public class LoginFragment extends Fragment implements View.OnClickListener ,Reg
     //用于储存用户账号密码的东西
     protected static SharedPreferences sharedPreferences;
     protected static SharedPreferences.Editor editor;
-    protected static List<UserBean> userList = new ArrayList<>();
+    public static List<UserBean> userList = new ArrayList<>();
     private FragmentManager fragmentManager;
     private FragmentTransaction fragmentTransaction;
 

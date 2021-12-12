@@ -1,4 +1,4 @@
-package com.example.helloandroid;
+package com.example.helloandroid.page.adapter;
 
 import android.app.AlertDialog;
 import android.view.LayoutInflater;
@@ -8,6 +8,9 @@ import android.widget.Button;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.example.helloandroid.R;
+import com.example.helloandroid.bean.LessonBean;
 
 import java.util.ArrayList;
 

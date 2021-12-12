@@ -1,4 +1,4 @@
-package com.example.helloandroid;
+package com.example.helloandroid.bean;
 
 import java.io.Serializable;
 
@@ -8,7 +8,7 @@ public class UserBean implements Serializable {
     private boolean isRememberPassword;
     private boolean isAutoLogin;
 
-    UserBean(String username,String password){
+    public UserBean(String username, String password){
         this.username = username;
         this.password = password;
         this.isRememberPassword = false;

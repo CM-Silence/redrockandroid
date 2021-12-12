@@ -1,4 +1,4 @@
-package com.example.helloandroid;
+package com.example.helloandroid.page.activity;
 
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
@@ -9,10 +9,13 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 
+import com.example.helloandroid.R;
+import com.example.helloandroid.page.fragment.LoginFragment;
+
 public class MainActivity extends AppCompatActivity {
     private FragmentManager fragmentManager;
     private FragmentTransaction fragmentTransaction;
-    protected static Fragment fragment;
+    public static Fragment fragment;
 
     //开始该活动的方法
     public static void startActivity(Context context){

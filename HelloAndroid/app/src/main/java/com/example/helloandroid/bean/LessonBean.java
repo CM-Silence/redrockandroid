@@ -1,4 +1,4 @@
-package com.example.helloandroid;
+package com.example.helloandroid.bean;
 
 public class LessonBean {
     private String fullName;
