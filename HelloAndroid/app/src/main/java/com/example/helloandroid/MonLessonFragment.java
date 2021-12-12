@@ -14,7 +14,11 @@ import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 
 import java.util.ArrayList;
 
-public class MonLessonFragment extends Fragment {
+public class MonLessonFragment extends MyFragment {
+
+    public String getDAY() {
+        return "周一";
+    }
 
     @Nullable
     @Override

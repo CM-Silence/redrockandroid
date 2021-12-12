@@ -10,7 +10,6 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class RvLessonAdapter extends RecyclerView.Adapter<RvLessonAdapter.InnerHolder>{
     ArrayList<LessonBean> lessonList; //用于储存课程的列表
@@ -29,6 +28,7 @@ public class RvLessonAdapter extends RecyclerView.Adapter<RvLessonAdapter.InnerH
     @Override
     public void onBindViewHolder(@NonNull RvLessonAdapter.InnerHolder holder, int position) {
         holder.btnLesson.setText(lessonList.get(position).getFullName());
+        holder.initData(lessonList.get(position).getName(),lessonList.get(position).getClassroom(),lessonList.get(position).getTime());
     }
 
     @Override
@@ -40,11 +40,20 @@ public class RvLessonAdapter extends RecyclerView.Adapter<RvLessonAdapter.InnerH
     public static class InnerHolder extends RecyclerView.ViewHolder
     {
         Button btnLesson;
+        private String name;
+        private String classroom;
+        private String time;
 
         public InnerHolder(@NonNull View itemView) {
             super(itemView);
             btnLesson = itemView.findViewById(R.id.btn_sec_show);
             initClickListener();
+        }
+
+        private void initData(String name, String classroom, String time){
+            this.name = name;
+            this.classroom = classroom;
+            this.time = time;
         }
 
         private void initClickListener(){
@@ -53,7 +62,7 @@ public class RvLessonAdapter extends RecyclerView.Adapter<RvLessonAdapter.InnerH
                 public void onClick(View v) {
                     AlertDialog.Builder dialog = new AlertDialog.Builder(v.getContext());
                     dialog.setTitle("课程信息");
-                    dialog.setMessage("课程名称:" + btnLesson.getText().toString() + "\n教室:" + btnLesson.getText().toString() + "\n时间:" + btnLesson.getText().toString());
+                    dialog.setMessage("课程名称:" + name + "\n教室:" + classroom + "\n时间:" + time);
                     dialog.show();
                 }
             });

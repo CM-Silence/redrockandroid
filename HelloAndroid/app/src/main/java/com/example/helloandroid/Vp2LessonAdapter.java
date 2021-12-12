@@ -15,9 +15,9 @@ import androidx.viewpager2.adapter.FragmentStateAdapter;
 import java.util.ArrayList;
 
 public class Vp2LessonAdapter extends FragmentStateAdapter {
-    ArrayList<Fragment> fragmentList; //用于储存碎片的列表
+    ArrayList<MyFragment> fragmentList; //用于储存碎片的列表
 
-    public Vp2LessonAdapter(@NonNull FragmentActivity fragmentActivity, ArrayList<Fragment> fragments) {
+    public Vp2LessonAdapter(@NonNull FragmentActivity fragmentActivity, ArrayList<MyFragment> fragments) {
         super(fragmentActivity);
         this.fragmentList = fragments;
     }

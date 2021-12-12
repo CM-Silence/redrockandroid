@@ -15,6 +15,9 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager2.widget.ViewPager2;
 
+import com.google.android.material.tabs.TabLayout;
+import com.google.android.material.tabs.TabLayoutMediator;
+
 import java.util.ArrayList;
 import java.util.Objects;
 
@@ -22,6 +25,7 @@ import java.util.Objects;
 public class SecondFragment extends Fragment implements View.OnClickListener{
     private Button mBtnLogout;
     private ViewPager2 mVp2Lesson;
+    private TabLayout mTlPage;
     private FragmentManager fragmentManager;
     private FragmentTransaction fragmentTransaction;
 
@@ -44,17 +48,25 @@ public class SecondFragment extends Fragment implements View.OnClickListener{
     private void initView(View view){
         mBtnLogout = view.findViewById(R.id.btn_sec_logout);
         mVp2Lesson = view.findViewById(R.id.vp2_sec_lesson);
+        mTlPage = view.findViewById(R.id.tl_sec_page);
         mBtnLogout.setOnClickListener(this);
     }
 
     private void initVp2(){
-        ArrayList<Fragment> fragmentList= new ArrayList();
+        ArrayList<MyFragment> fragmentList= new ArrayList();
         fragmentList.add(new MonLessonFragment());
         fragmentList.add(new TueLessonFragment());
         fragmentList.add(new WedLessonFragment());
 
         Vp2LessonAdapter vp2LessonAdapter = new Vp2LessonAdapter(requireActivity(),fragmentList);
         mVp2Lesson.setAdapter(vp2LessonAdapter);
+
+        new TabLayoutMediator(mTlPage, mVp2Lesson, new TabLayoutMediator.TabConfigurationStrategy() {
+            @Override
+            public void onConfigureTab(@NonNull TabLayout.Tab tab, int position) {
+                //在这里给Tab设置Text
+                tab.setText(fragmentList.get(position).getDAY()); } }).attach();
+
     }
 
     @Override
